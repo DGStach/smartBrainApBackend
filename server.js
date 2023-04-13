@@ -14,7 +14,7 @@ database = {
             id: "1",
             name: "Daga",
             email: "gaga376@wp.pl",
-            password: "cookies",
+            password: "a",
             entries: 0,
             joined: new Date()
         },
@@ -40,18 +40,13 @@ app.get("/", (req, res) => {
 })
 
 app.post("/signin", (req, res) => {
-    bcrypt.compare("bacon", "$2a$10$FiFHnsAwS7odQrrwNZbTie285Qt4Y0t3iIfEFTT.uJrE1OhvfD9fO", function(err, res) {
- console.log("first guess", res);
-    });
-    bcrypt.compare("veggies", "$2a$10$FiFHnsAwS7odQrrwNZbTie285Qt4Y0t3iIfEFTT.uJrE1OhvfD9fO", function(err, res) {
-        console.log("second guess", res);
-    });
-
     if (req.body.email === database.users[0].email
         && req.body.password === database.users[0].password) {
-        res.json("succes")
+        console.log("success")
+        res.json({'status': 'success'})
     } else {
-        res.status(400).json("upps no working")
+        console.log('failure')
+        res.status(400).json('upps no working')
     }
 })
 

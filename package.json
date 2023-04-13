@@ -1,9 +1,9 @@
 {
   "name": "smartbrainapbackend",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "signin",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",

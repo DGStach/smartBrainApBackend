@@ -3,8 +3,12 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 
-const app = express();
+/*
+import isPortReachable from 'is-port-reachable';
+console.log(await isPortReachable(80, {host: 'google.com'}));
+*/
 
+const app = express();
 app.use(bodyParser.json());
 app.use(cors())
 
@@ -43,7 +47,8 @@ app.post("/signin", (req, res) => {
     if (req.body.email === database.users[0].email
         && req.body.password === database.users[0].password) {
         console.log("success")
-        res.json({'status': 'success'})
+      /*  res.json({'status': 'success'})*/
+        res.json(database.users[0])
     } else {
         console.log('failure')
         res.status(400).json('upps no working')
@@ -61,7 +66,6 @@ app.post("/register", (req, res) => {
         id: "123",
         name: name,
         email: email,
-        password: password,
         entries: 0,
         joined: new Date()
     })
@@ -82,7 +86,7 @@ app.get("/profile/:id", (req, res) => {
     }
 })
 
-app.post("/image", (req,res)=>{
+app.put("/image", (req,res)=>{
     const {id} = req.body;
     let found = false;
     database.users.forEach(user => {
@@ -100,9 +104,6 @@ app.post("/image", (req,res)=>{
 bcrypt.hash("bacon", null, null, function(err, hash) {
     // Store hash in your password DB.
 });
-
-
-
 
 
 app.listen(3000, () => {

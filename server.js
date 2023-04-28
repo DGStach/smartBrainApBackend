@@ -2,11 +2,25 @@ const express = require("express");
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
+const knex = require('knex')
 
-/*
-import isPortReachable from 'is-port-reachable';
-console.log(await isPortReachable(80, {host: 'google.com'}));
-*/
+
+const db = knex ({
+    client: 'pg',
+    connection: {
+        host : '127.0.0.1',
+        port : 5431,
+        user : 'daga',
+        password :"blabla",
+        database : 'test'
+    }
+});
+
+(db.select('*')
+    .from('users'))
+    .then(data=>{
+        console.log(data)
+})
 
 const app = express();
 app.use(bodyParser.json());
@@ -43,6 +57,8 @@ app.get("/", (req, res) => {
     res.send(database.users);
 })
 
+console.log('dczdvczdvz')
+
 app.post("/signin", (req, res) => {
     if (req.body.email === database.users[0].email
         && req.body.password === database.users[0].password) {
@@ -56,20 +72,18 @@ app.post("/signin", (req, res) => {
 })
 
 app.post("/register", (req, res) => {
-    const {email, name, password} = req.body
+    const {email, name, password} = req.body;
 
-    bcrypt.hash(password, null, null, function(err, hash) {
-       console.log(hash)
-    });
-
-    database.users.push({
-        id: "123",
-        name: name,
+    db('users')
+        .returning('*')
+        .insert({
         email: email,
-        entries: 0,
+        name: name,
         joined: new Date()
+    }).then(user => {
+        res.json(user[0]);
     })
-    res.json(database.users[database.users.length - 1]);
+        .catch(err => res.status(400).json("unable to register"))
 })
 
 app.get("/profile/:id", (req, res) => {

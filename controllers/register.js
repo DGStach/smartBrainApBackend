@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt-nodejs");
 
-const handleRegister =
-(req,res,db,bcrypt) => {
+const handleRegister = (db ,bcrypt)=>
+(req, res) => {
 
     // create db.transaction if we have more than ones things
     // use this trx object instead of db to do this operations

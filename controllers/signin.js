@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt-nodejs");
-const handleSignin = (req,res,db,bcrypt) => {
+const handleSignin = (db,bcrypt)=> (req,res) => {
     db.select('email', 'hash').from('login')
         .where('email', '=', req.body.email)
         .then(data => {
@@ -12,7 +12,7 @@ const handleSignin = (req,res,db,bcrypt) => {
                     })
                     .catch(err => res.status(400).json('unable to get user'))
             } else {
-                res.status(400).json('wrong credentials')
+                res.status(400).json('wrong password or email')
             }
         })
         .catch(err => res.status(400).json('wrong credentials'))

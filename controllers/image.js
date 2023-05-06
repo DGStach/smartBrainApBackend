@@ -1,9 +1,10 @@
+const {response} = require("express");
 
 const handleApiCall = (req,res)=>{
     fetch("https://api.clarifai.com/v2/models/face-detection/outputs", clarifaiResponse(req.body.input))
         .then(response => response.json())
-}
-
+        .then(response => res.json(response))
+    }
 
 const clarifaiResponse = (imageUrl) =>{
     const PAT = 'abb9da9a0fbe4790be73ebbc9a135aed';
@@ -38,7 +39,7 @@ const clarifaiResponse = (imageUrl) =>{
     return requestOptions
 }
 
-const handleImage = (db)=> (req, res) => {
+const handleImage = (db) => (req, res) => {
     const {id} = req.body;
     db('users').where('id', '=', id)
         .increment('entries', 1)
@@ -48,5 +49,4 @@ const handleImage = (db)=> (req, res) => {
         })
         .catch(err => res.status(400).json('unable to get entries'))
 }
-module.exports = {handleImage: handleImage}
-module.exports = {handleApiCall: handleApiCall}
+module.exports = {handleApiCall: handleApiCall, handleImage: handleImage}

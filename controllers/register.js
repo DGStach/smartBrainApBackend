@@ -44,6 +44,6 @@ const handleRegister = (db ,bcrypt)=>
             .then(trx.commit) // trx.commit - put into it this data
             .catch(trx.rollback) // if anything change - rollback the changes
     })
-        .catch(err => res.status(400).json("unable to register"))
+        .catch(err => res.status(400).json("unable to register, change email"))
 }
 module.exports = {handleRegister: handleRegister}

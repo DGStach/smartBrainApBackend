@@ -2,7 +2,6 @@ const bcrypt = require("bcrypt-nodejs");
 
 const handleRegister = (db ,bcrypt)=>
 (req, res) => {
-
     // create db.transaction if we have more than ones things
     // use this trx object instead of db to do this operations
     // insert data
@@ -12,13 +11,16 @@ const handleRegister = (db ,bcrypt)=>
     // and to insert into it users
     // email - instead loginEmail, email instead of loginEmail[0].email,
     // also works
-    //
     //then respond with a json()
     // if we want to add it to sql
     // need to trx transaction commit
     // if anything fails - function catch will rollback the changes
 
     const {email, name, password} = req.body;
+    console.log("name", name)
+    console.log("email", email)
+    console.log("password", password)
+
     if (!email || !name || !password){
         return res.status(400).json('incorrect form submission')
     }

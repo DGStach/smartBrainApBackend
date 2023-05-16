@@ -17,9 +17,9 @@ const handleRegister = (db ,bcrypt)=>
     // if anything fails - function catch will rollback the changes
 
     const {email, name, password} = req.body;
-    console.log("name", name)
+ /*   console.log("name", name)
     console.log("email", email)
-    console.log("password", password)
+    console.log("password", password)*/
 
     if (!email || !name || !password){
         return res.status(400).json('incorrect form submission')

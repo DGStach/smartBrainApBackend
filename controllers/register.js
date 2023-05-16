@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt-nodejs");
 const handleRegister = (db ,bcrypt)=>
 (req, res) => {
     const {email, name, password} = req.body;
-    console.log('req.body', req.body.email);
    if (!email || !name || !password){
         return res.status(400).json('incorrect form submission')
     }

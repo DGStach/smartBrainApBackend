@@ -17,14 +17,18 @@ const handleRegister = (db ,bcrypt)=>
     // if anything fails - function catch will rollback the changes
 
     const {email, name, password} = req.body;
+    console.log('req.body', req.body.email);
  /*   console.log("name", name)
     console.log("email", email)
     console.log("password", password)*/
 
-    if (!email || !name || !password){
+/*    if (!email || !name || !password){
         return res.status(400).json('incorrect form submission')
-    }
+    }*/
+    console.log('email', email);
     const hash = bcrypt.hashSync(password);
+    console.log('hash', hash);
+
     db.transaction(trx => {
         trx.insert({
             hash: hash,
@@ -40,12 +44,12 @@ const handleRegister = (db ,bcrypt)=>
                         name: name,
                         joined: new Date()
                     }).then(user => {
-                        res.json(user[0]);
+                       res.json(user[0])
                     })
             })
             .then(trx.commit) // trx.commit - put into it this data
             .catch(trx.rollback) // if anything change - rollback the changes
     })
-        .catch(err => res.status(400).json("unable to register, change email"))
+        .catch(err => res.status(400).json(err))
 }
 module.exports = {handleRegister: handleRegister}

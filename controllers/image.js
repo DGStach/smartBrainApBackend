@@ -1,16 +1,18 @@
 const {response} = require("express");
 
 const handleApiCall = (req,res)=>{
-    fetch("https://api.clarifai.com/v2/models/face-detection/outputs", clarifaiResponse(req.body.input))
+    fetch("https://api.clarifai.com/v2/models/face-detection/outputs", clarifaiResponse(req.body))
         .then(response => response.json())
         .then(response => res.json(response))
     }
 
-const clarifaiResponse = (imageUrl) =>{
+const clarifaiResponse = (req) =>{
     const PAT = 'abb9da9a0fbe4790be73ebbc9a135aed';
     const USER_ID = 'otiu4hjtbvkm';
     const APP_ID = 'test';
-    const IMAGE_URL = imageUrl;
+    const IMAGE_URL = req.input;
+    const IMAGE_base64 = req.base64;
+
 
     const raw = JSON.stringify({
         "user_app_id": {
@@ -21,13 +23,15 @@ const clarifaiResponse = (imageUrl) =>{
             {
                 "data": {
                     "image": {
-                        "url": IMAGE_URL
+                        "url": IMAGE_URL,
+                        "base64": IMAGE_base64
                     }
                 }
             }
         ]
     });
 
+console.log("raw", raw);
     const requestOptions = {
         method: 'POST',
         headers: {

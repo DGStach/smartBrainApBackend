@@ -7,7 +7,9 @@ const register = require('./controllers/register');
 const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image')
-
+const multer = require('multer');
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage })
 
 const db = knex({
     client: 'pg',
@@ -21,11 +23,11 @@ const db = knex({
     }
 });
 
-(db.select('*')
+/*(db.select('*')
     .from('users'))
     .then(data => {
         console.log(data)
-    })
+    })*/
 
 const app = express();
 app.use(bodyParser.json());
@@ -36,7 +38,8 @@ app.post("/signin",signin.handleSignin(db,bcrypt))
 app.post("/register",register.handleRegister(db,bcrypt))
 app.get("/profile/:id",profile.handleProfileGet(db))
 app.put("/image",image.handleImage(db));
-app.post("/imageurl", image.handleApiCall);
+app.post("/imageurl", upload.single('imageData'), image.handleApiCall);
+
 
 const PORT = process.env.PORT || 3000 || 3001;
 app.listen(PORT, () => {console.log(`app is running port ${PORT},`)});

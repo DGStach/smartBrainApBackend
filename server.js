@@ -23,12 +23,6 @@ const db = knex({
     }
 });
 
-/*(db.select('*')
-    .from('users'))
-    .then(data => {
-        console.log(data)
-    })*/
-
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
@@ -41,6 +35,7 @@ app.put("/image",image.handleImage(db));
 app.post("/imageurl", upload.single('imageData'), image.handleApiCall);
 
 
-const PORT = process.env.PORT || 3000 || 3001;
-app.listen(PORT, () => {console.log(`app is running port ${PORT},`)});
-console.log(PORT)
+const PORT = process.env.PORT || 3002;
+console.log("process.env.PORT", process.env.PORT)
+app.listen(3002, () => {console.log(`app is running port ${PORT},`)});
+console.log("process.env.PORT", process.env.PORT)

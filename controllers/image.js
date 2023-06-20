@@ -8,15 +8,18 @@ const handleApiCall = (req,res)=>{
     }
 
 const clarifaiResponse = (req) =>{
-    console.log("req",req)
-    console.log("req.body.imageUrl",req.body.imageUrl)
-    console.log("req.imageData",req.file.buffer.toString('base64'))
-
     const PAT = 'abb9da9a0fbe4790be73ebbc9a135aed';
     const USER_ID = 'otiu4hjtbvkm';
     const APP_ID = 'test';
-    const IMAGE_URL = req.body.imageUrl
-    const IMAGE_base64 = req.file.buffer.toString('base64');
+    let rawInputs;
+
+    if (req.body.imageUrl){
+        rawInputs = {"url" : req.body.imageUrl}
+    }
+
+    if (req.file){
+        rawInputs = {"base64" : req.file.buffer.toString("base64")}
+    }
 
     const raw = JSON.stringify({
         "user_app_id": {
@@ -26,10 +29,7 @@ const clarifaiResponse = (req) =>{
         "inputs": [
             {
                 "data": {
-                    "image": {
-                        "url": IMAGE_URL,
-                        "base64": IMAGE_base64
-                    }
+                    "image": rawInputs
                 }
             }
         ]

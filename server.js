@@ -28,14 +28,13 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.get("/", (req, res) => {res.send('success')})
-app.post("/signin",signin.handleSignin(db,bcrypt))
+app.post("/signin", signin.handleSignin(db,bcrypt))
 app.post("/register",register.handleRegister(db,bcrypt))
 app.get("/profile/:id",profile.handleProfileGet(db))
 app.put("/image",image.handleImage(db));
 app.post("/imageurl", upload.single('imageData'), image.handleApiCall);
 
-
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3001;
 console.log("process.env.PORT", process.env.PORT)
-app.listen(3002, () => {console.log(`app is running port ${PORT},`)});
+app.listen(PORT, () => {console.log(`app is running port ${PORT},`)});
 console.log("process.env.PORT", process.env.PORT)
